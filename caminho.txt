@@ -1,0 +1,1 @@
+Copiar C:\Program Files\MySQL\MySQL Server 8.0\lib\   libmysql.dll para env\Lib\site-packages  somente o .dll
