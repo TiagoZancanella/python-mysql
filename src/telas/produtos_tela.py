@@ -19,6 +19,7 @@ def executar_produto():
 
 # Funções com um/dois underline(s) antes do nome são considerados funções privadas, ou seja, não devem/podem serr utilizadas em outros arquivos.
 
+
 def __apagar():
     id_para_apagar = int(questionary.text("Digite o ID do produto para apagar: ").ask())
     produto_repositorio.apagar(id_para_apagar)
