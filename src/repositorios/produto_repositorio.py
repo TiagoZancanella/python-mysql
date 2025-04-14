@@ -29,6 +29,9 @@ def cadastrar(nome_produto: str):
         print(e)
 
 
+
+
+
 def editar(id_editar: int, nome: str):
     try:
         conexao = abrir_conexao()
@@ -37,10 +40,8 @@ def editar(id_editar: int, nome: str):
         conexao.commit()
         conexao.close()
     except Exception as erro:
-        print("Não foi possivel alterar o produto!")
+        print("Não foi possivel alterar nome cliente!")
         print(erro)
-
-
 def apagar(id_apagar: int):
     try:
         conexao = abrir_conexao()
@@ -49,9 +50,8 @@ def apagar(id_apagar: int):
         conexao.commit()
         conexao.close()
     except Exception as er:
-        print("Não foi possivel apagaar o registro")
+        print("Não foi possivel apagar o registro")
         print(er)
-
 def listar_todos():
     try:
         conexao = abrir_conexao()
