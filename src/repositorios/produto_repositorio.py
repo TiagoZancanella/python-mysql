@@ -52,6 +52,8 @@ def apagar(id_apagar: int):
     except Exception as er:
         print("Não foi possivel apagar o registro")
         print(er)
+
+        
 def listar_todos():
     try:
         conexao = abrir_conexao()

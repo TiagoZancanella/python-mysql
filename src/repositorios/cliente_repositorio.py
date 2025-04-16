@@ -3,12 +3,12 @@ from src.database.conexao import abrir_conexao
 
 
 
-def cadastrar_cliente(nome_cliente: str):
+def cadastrar_cliente(nome_cliente: str , cpf_cliente: str):
     try:
         conexao = abrir_conexao()
         cursor = conexao.cursor()
 
-        cursor.execute("insert into clientes (nome) values (%s)", (nome_cliente,))
+        cursor.execute("insert into clientes (nome, cpf) values (%s,%s)", (nome_cliente, cpf_cliente))
         
         conexao.commit()
         conexao.close()
@@ -19,14 +19,15 @@ def listar_todos():
     try:
         conexao = abrir_conexao()
         cursor = conexao.cursor()
-        cursor.execute("select id, nome from clientes")
+        cursor.execute("select id, nome, cpf from clientes")
         registros = cursor.fetchall()
 
         clientes = []
         for registro in registros:
             cliente = {
                 "id": registro[0],
-                "nome" : registro[1]
+                "nome" : registro[1],
+                "cpf" : registro[2]
             }
             clientes.append(cliente)
         return clientes
@@ -48,13 +49,14 @@ def apagar(id_apagar: int):
         print("Não foi possivel apagar o registro")
         print(er)
     
-def editar(id_editar: int, nome: str):
+def editar(id_editar: int, nome: str, cpf: int):
+
     try:
         conexao = abrir_conexao()
         cursor = conexao.cursor()
-        cursor.execute("UPDATE clientes SET nome = %s where id = %s",(nome, id_editar),)
+        cursor.execute( "UPDATE clientes SET nome = %s, cpf = %s WHERE id = %s", (nome, cpf, id_editar))
         conexao.commit()
         conexao.close()
     except Exception as erro:
-        print("Não foi possivel alterar o produto!")
+        print("Não foi possivel alterar o cadastro!")
         print(erro)

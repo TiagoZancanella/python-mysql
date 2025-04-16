@@ -13,3 +13,14 @@ create table clientes(
     nome varchar(50),
     cpf varchar(14)
 );
+
+
+
+CREATE TABLE fornecedor (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    razao_social VARCHAR(50),
+    cnpj VARCHAR(18),
+    nome_fantasia VARCHAR(50),
+    valor_faturado DECIMAL(15,2),
+    quantidade_colaboradores INT
+);
