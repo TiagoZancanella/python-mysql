@@ -3,6 +3,7 @@ from rich.console import Console
 from rich.table import Table
 from src.repositorios import produto_repositorio
 
+global produto
 
 def executar_produto():
     opcoes = ["Listar todos", "Cadastrar", "Editar", "Apagar", "Voltar"]
@@ -56,6 +57,10 @@ def __editar():
 
 
 def __cadastrar():
+    global produtos 
+    produtos = produto_repositorio.listar_todos()
+
+
 # Função responsável por cadastar um produto, solicitando os dados necessários para o cadastro.
     nome_produto = questionary.text("Digite o nome do produto: ",validate=__validar_nome).ask().strip()
 
@@ -85,8 +90,13 @@ def __listar_todos():
     
         console.print(tabela)
 
-
 def __validar_nome(nome: str):
+    global produtos
+    for produto in produtos:
+        if nome.strip() == produto["nome"]:
+            return "Já existe produto cadastrado com este nome"
+
+
     if len(nome.strip()) < 3:
         return "Nome do produto deve conter no mínimo 3 caracteres"
     if len(nome.strip()) > 50:
