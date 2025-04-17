@@ -37,10 +37,20 @@ def __apagar():
 
 
 def __editar():
-    id_para_editar = int(questionary.text("Digite o id para editar: ").ask())
-    novo_nome_produtos = questionary.text("Digite o nome do produto: ").ask()
+
+    produtos = produto_repositorio.listar_todos()
+    opcoes_produtos = []
+    for produto in produtos:
+        opcao = questionary.Choice(title=produto["nome"],value=produto["id"])
+        opcoes_produtos.append(opcao)
+    id_para_editar = int(questionary.select("Escolha o produto para editar: ", choices=opcoes_produtos).ask())
+    novo_nome_produtos = questionary.text("Digite o nome do produto: ", validate=__validar_nome).ask().strip()
     produto_repositorio.editar(id_para_editar, novo_nome_produtos)
     print("Produto alterando com sucesso")
+
+
+
+
 def __cadastrar():
 # Função responsável por cadastar um produto, solicitando os dados necessários para o cadastro.
     nome_produto = questionary.text("Digite o nome do produto: ",validate=__validar_nome).ask().strip()
