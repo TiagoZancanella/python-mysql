@@ -1,8 +1,10 @@
+from typing import List
 import questionary
 from src.database.conexao import abrir_conexao
+from src.models.produto import Produto
 
 
-def cadastrar(nome_produto: str):
+def cadastrar(produto: Produto):
     try:
         conexao = abrir_conexao()
         # Criar um cursor que nos permitirá executar comandos no banco de dados
@@ -19,7 +21,7 @@ def cadastrar(nome_produto: str):
 
 
         # Definir qual será o comando que iremos executar, neste caso será um insert
-        cursor.execute("insert into produtos (nome) values (%s)",(nome_produto,)) 
+        cursor.execute("insert into produtos (nome) values (%s)",(produto.nome,)) 
 
         # Commit é necessário pois sem ele o insert n será concretizado no bd
         conexao.commit()
@@ -32,11 +34,11 @@ def cadastrar(nome_produto: str):
 
 
 
-def editar(id_editar: int, nome: str):
+def editar(produto: Produto):
     try:
         conexao = abrir_conexao()
         cursor = conexao.cursor()
-        cursor.execute("UPDATE produtos SET nome = %s where id = %s",(nome, id_editar),)
+        cursor.execute("UPDATE produtos SET nome = %s where id = %s",(produto.nome, produto.id),)
         conexao.commit()
         conexao.close()
     except Exception as erro:
@@ -54,7 +56,7 @@ def apagar(id_apagar: int):
         print(er)
 
         
-def listar_todos():
+def listar_todos() -> List[Produto]:
     try:
         conexao = abrir_conexao()
         cursor = conexao.cursor()
@@ -63,10 +65,11 @@ def listar_todos():
 
         produtos = []
         for registro in registros:
-            produto = {
-                "id": registro[0],
-                "nome" : registro[1]
-            }
+            # produto = {
+            #     "id": registro[0],
+            #     "nome" : registro[1]
+            # }
+            produto = Produto(nome=registro[1], id=int(registro[0]))
             produtos.append(produto)
         return produtos
     except Exception as err:
